@@ -1,3 +1,7 @@
 #entryArea {
     margin:auto;
 }
+
+body {
+    background-image: url("/static/img/techBackground.jpg");
+}
