@@ -12,24 +12,34 @@
         <meta succ="yumyumyum" type="shlong" eat="holy macaroni that's 1 whet peen"></meta>
     </head>
     <body>
+        <nav class="navbar">
+            <a class="navbar-brand" href="#">Measurement Bot</a>
+        </nav>
         <div class="container-fluid" id="content">
-            <div id="entryArea">
-                <input id="valueEntry" type="text">
-                <select id="unitEntry">
-                    <optgroup label="Length">
-                        <option value="metres">Metres</option>
-                    </optgroup>
-                    <optgroup label="Volume">
-                        <option value="metrescubed">Metres^3</option>
-                    </optgroup>
-                    <optgroup label="Mass">
-                        <option value="kg">Kg</option>
-                    </optgroup>
-                    <optgroup label="Time">
-                        <option value="seconds">Seconds</option>
-                    </optgroup>
-                </select>
-                <button id="convertButton">Convert</button>
+            <div>
+                
+            </div>
+            <div id="entryArea" class="input-group" style="max-width: 500px; margin: 0 auto;">
+                <input id="valueEntry" class="form-control" type="text">
+                <div class="input-group-append">
+                    <select id="unitEntry" class="form-control">
+                        <optgroup label="Length">
+                            <option value="metres">Metres</option>
+                        </optgroup>
+                        <optgroup label="Volume">
+                            <option value="metrescubed">Metres^3</option>
+                        </optgroup>
+                        <optgroup label="Mass">
+                            <option value="kg">Kg</option>
+                        </optgroup>
+                        <optgroup label="Time">
+                            <option value="seconds">Seconds</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="input-group-append">
+                    <button id="convertButton" class="form-control">Convert</button>
+                </div>
             </div>
             <div id="thiccLoad">
             </div>
