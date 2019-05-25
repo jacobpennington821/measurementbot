@@ -1,15 +1,21 @@
 import pandas as pd
+import random
 
 def wide(unit, value):
+    filename = ''
     if (unit == 'metrescubed'):
-        unit = 'volumes'
+        filename = 'volumes'
     elif (unit == 'seconds'):
-        unit = 'times'
+        filename = 'times'
     elif (unit == 'kg'):
-        unit = 'mass'
+        filename = 'mass'
 
-    data = pd.read_csv(unit + '.csv')
+    lineCount = sum(1 for line in open(filename + '.csv')) - 1
+    skip = random.randint(1, lineCount)
+    data = pd.read_csv(filename + '.csv', skiprows=skip)
 
-    return 'WIDE'
+    output = "The value of " + value + " " + unit + " is the same as " + data[0] + " " + data[1]
+
+    return output
 
 #metrescubed / seconds / kg

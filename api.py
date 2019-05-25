@@ -14,4 +14,4 @@ def bum():
     value = request.args.get("value")
     unit = request.args.get("unit")
     output = huge.wide(value, unit)
-    return 'WIDE'
+    return output
