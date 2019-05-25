@@ -8,6 +8,8 @@ def wide(unit, value):
     elif (unit == 'kg'):
         unit = 'mass'
 
-    pd.
+    data = pd.read_csv(unit + '.csv')
+
+    return 'WIDE'
 
 #metrescubed / seconds / kg
