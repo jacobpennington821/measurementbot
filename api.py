@@ -1,8 +1,11 @@
 from flask import Flask, request
-import .wide from huge
+import huge
 
 app = Flask(__name__)
 
 @app.route('/bum')
 def bum():
-    return 'something'
+    value = request.args.get("value")
+    unit = request.args.get("unit")
+    output = huge.wide(value, unit)
+    return 'WIDE'
