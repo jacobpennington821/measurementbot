@@ -1,6 +1,8 @@
-document.getElementById("convertButton").addEventListener("click", function(e){
-    convertValue(document.getElementById("valueEntry").textContent, $("#unitEntry").val());
-});
+document.onload = function(){
+    document.getElementById("convertButton").addEventListener("click", function(e){
+        convertValue(document.getElementById("valueEntry").textContent, $("#unitEntry").val());
+    });
+}
 
 function convertValue(value, unit){
     console.log("Value: " + value + ", unit: " + unit);
