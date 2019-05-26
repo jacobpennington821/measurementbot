@@ -1,5 +1,6 @@
 from flask import Flask, request
 import huge
+import json
 
 from flask import render_template
 
@@ -15,5 +16,5 @@ def root(name=None):
 def bum():
     value = request.args.get("value")
     unit = request.args.get("unit")
-    output = huge.wide(value, unit)
-    return output
+    output = huge.wide(unit, value)
+    return json.dumps(output)

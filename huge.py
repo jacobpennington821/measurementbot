@@ -4,7 +4,8 @@ from pandas import DataFrame
 import random
 import os
 
-dbConn = sql.connect(":memory:")
+dbConn = sql.connect(":memory:", check_same_thread=False)
+dbConn.row_factory = sql.Row
 
 def setup():
     cur = dbConn.cursor()
@@ -14,18 +15,17 @@ def setup():
                 readFile = pd.read_csv(os.path.join(root, file))
                 readFile.to_sql(file.split(".")[0], dbConn, index=False)
                 cur.execute("SELECT * FROM " + file.split(".")[0] + ";")
-                print(cur.fetchall())
-
 
 def wide(unit, value):
-    filename = getTypeFromUnit(unit)
+    tableName = getTypeFromUnit(unit)
 
-    lineCount = sum(1 for line in open(filename + '.csv')) - 1
-    skip = random.randint(1, lineCount)
-    data = pd.read_csv(filename + '.csv', skiprows=skip)
+    cur = dbConn.cursor()
+    cur.execute("SELECT * FROM " + tableName + " WHERE rowid = abs(random()) % (SELECT max(rowid) FROM " + tableName + ") + 1; ")
+    row = cur.fetchone()
 
-    output = "The value of " + value + " " + unit + " is the same as " + data[0] + " " + data[1]
+    output = "The value of " + value + " " + unit + " is the same as " + str(row["Unit"]) + " " + str(row["Value"])
 
+    print(output)
     return output
 
 #metrescubed / seconds / kg
@@ -37,3 +37,5 @@ def getTypeFromUnit(unit):
         return 'times'
     elif unit == 'kg':
         return 'mass'
+    elif unit == 'metres':
+        return "lengths"
