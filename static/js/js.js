@@ -1,6 +1,6 @@
 document.onload = function(){
     document.getElementById("convertButton").addEventListener("click", function(e){
-        convertValue(document.getElementById("valueEntry").textContent, $("#unitEntry").val());
+        convertValue(document.getElementById("valueEntry").value, $("#unitEntry").val());
     });
 }
 
