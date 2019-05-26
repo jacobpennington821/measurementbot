@@ -13,6 +13,7 @@ function convertValue(value, unit){
             value: value,
             unit: unit,
         },
+        cache: false,
         success: function(data){
             document.getElementById("thiccLoad").innerHTML = data;
             console.log(data);

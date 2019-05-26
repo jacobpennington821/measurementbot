@@ -9,8 +9,8 @@ app = Flask(__name__)
 huge.setup()
 
 @app.route('/')
-def root(name=None):
-    return render_template('homegamebutnobodyturnedup.html', name=name)
+def root():
+    return render_template('homegamebutnobodyturnedup.html')
 
 @app.route('/api/bum')
 def bum():

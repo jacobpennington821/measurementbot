@@ -23,7 +23,9 @@ def wide(unit, value):
     cur.execute("SELECT * FROM " + tableName + " WHERE rowid = abs(random()) % (SELECT max(rowid) FROM " + tableName + ") + 1; ")
     row = cur.fetchone()
 
-    output = "The value of " + value + " " + unit + " is the same as " + str(row["Unit"]) + " " + str(row["Value"])
+    ratio = float(value) / row["Value"]
+
+    output = str(value)+ " " + str(unit) + " is the same as " + str(ratio) + " times " + str(row["Unit"])
 
     print(output)
     return output
