@@ -1,6 +1,5 @@
 import sqlite3 as sql
 import pandas as pd
-from pandas import DataFrame
 import random
 import os
 
