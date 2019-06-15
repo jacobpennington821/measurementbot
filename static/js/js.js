@@ -15,8 +15,11 @@ function convertValue(value, unit){
         },
         cache: false,
         success: function(data){
-            document.getElementById("thiccLoad").innerHTML = data;
-            console.log(data);
+            displayReading(data);
         },
     })
+}
+
+function displayReading(reading){
+    document.getElementById("thiccLoad").innerHTML = reading + ".";
 }

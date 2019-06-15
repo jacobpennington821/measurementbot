@@ -24,7 +24,7 @@ def wide(unit, value):
 
     ratio = float(value) / row["Value"]
 
-    output = str(value)+ " " + str(unit) + " is the same as " + str(ratio) + " times " + str(row["Unit"])
+    output = str(value) + " " + str(unit) + " is the same as " + str(ratio) + " times " + str(row["Unit"])
 
     print(output)
     return output
