@@ -1,6 +1,7 @@
 import sqlite3 as sql
 import pandas as pd
 import random
+import math
 import os
 
 dbConn = sql.connect(":memory:", check_same_thread=False)
@@ -24,7 +25,9 @@ def wide(unit, value):
 
     ratio = float(value) / row["Value"]
 
-    output = str(value) + " " + str(unit) + " is the same as " + str(ratio) + " times " + str(row["Unit"])
+    output = makeSentence(value, unit, row["Value"], row["Unit"])
+
+    # output = str(value) + " " + str(unit) + " is the same as " + str(ratio) + " times " + str(row["Unit"])
 
     print(output)
     return output
@@ -40,3 +43,67 @@ def getTypeFromUnit(unit):
         return 'mass'
     elif unit == 'metres':
         return "lengths"
+
+def getComparisonFromType(unitType, bigger):
+    dumb = random.randint(0, 1000)
+    if dumb is 1000:
+        if bigger:
+            return "thiccer"
+        else:
+            return "less thiccer"
+    if unitType == "volumes":
+        if bigger:
+            return "more spacious"
+        else:
+            return "less spacious"
+    elif unitType == "times" or unitType == "lengths":
+        if bigger:
+            return "longer"
+        else:
+            return "shorter"
+    elif unitType == "mass":
+        if bigger:
+            return "heavier"
+        else:
+            return "lighter"
+    else:
+        if bigger:
+            return "bigger"
+        else:
+            return "smaller"
+
+def makeSentence(inValue, inUnit, compareValue, compareUnit, sentenceType = None, intensity = None):
+    if sentenceType is None:
+        sentenceType = random.randint(0, 1)
+    if intensity is None:
+        intensity = random.randint(0, 100)
+
+    ratio = float(inValue) / float(compareValue)
+
+    same = False
+    if math.isclose(float(inValue), float(compareValue), abs_tol=1e-2):
+        same = True
+
+    exact = False
+    if math.isclose(round(ratio), ratio, abs_tol=1e-2):
+        exact = True
+    
+    sentence = ""
+
+    if sentenceType is 0:
+        if intensity > 90:
+            sentence += "WOW! "
+        elif intensity < 10:
+            sentence += "oh. "
+        sentence += str(inValue) + " " + str(inUnit) + " is the same as " + str(ratio) + " times " + str(compareUnit)
+    elif sentenceType is 1:
+        ratio = float(inValue) / float(compareValue)
+        if ratio < 1:
+            invRatio = 1 / ratio
+            sentence += str(compareUnit) + " is " + str(invRatio) + " times " + getComparisonFromType(getTypeFromUnit(inUnit), False)
+        else:
+            sentence += str(compareUnit) + " is " + str(ratio) + " times " + getComparisonFromType(getTypeFromUnit(inUnit), True)
+        
+        sentence += " than " + str(inValue) + " " + str(inUnit)
+
+    return sentence
