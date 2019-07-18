@@ -108,6 +108,12 @@ def makeSentence(inValue, inUnit, compareValue, compareUnit, sentenceType = None
     exact = False
     if math.isclose(round(ratio), ratio, abs_tol=1e-2):
         exact = True
+
+    if "e" in str(ratio):
+        ratioString = str(ratio)
+        a,b = ratioString.split("e")
+        print(a,b)
+        ratio = a + "x10<sup>" + str(int(b)) + "</sup>"
     
     sentence = ""
 
