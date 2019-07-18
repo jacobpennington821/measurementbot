@@ -25,7 +25,7 @@ def wide(unit, value):
 
     ratio = float(value) / row["Value"]
 
-    output = makeSentence(value, unit, row["Value"], row["Unit"])
+    output = makeSentence(value, unit, row["Value"], row["Unit"], sentenceType=2)
 
     # output = str(value) + " " + str(unit) + " is the same as " + str(ratio) + " times " + str(row["Unit"])
 
@@ -72,13 +72,34 @@ def getComparisonFromType(unitType, bigger):
         else:
             return "smaller"
 
+def getComparison2FromType(unitType):
+    if unitType == "volumes":
+        return "size"
+    if unitType == "lengths":
+        return "length"
+    if unitType == "mass":
+        return "mass"
+    if unitType == "times":
+        return "length"
+
+def getUnitDisplayName(unitType):
+    if unitType == "metrescubed":
+        return "m&#179";
+    else:
+        return unitType
+
 def makeSentence(inValue, inUnit, compareValue, compareUnit, sentenceType = None, intensity = None):
     if sentenceType is None:
-        sentenceType = random.randint(0, 1)
+        sentenceType = random.randint(0, 2)
     if intensity is None:
         intensity = random.randint(0, 100)
 
     ratio = float(inValue) / float(compareValue)
+
+    ratio = float("%.4g" % ratio)
+
+    if ratio.is_integer():
+        ratio = int(ratio)
 
     same = False
     if math.isclose(float(inValue), float(compareValue), abs_tol=1e-2):
@@ -95,9 +116,8 @@ def makeSentence(inValue, inUnit, compareValue, compareUnit, sentenceType = None
             sentence += "WOW! "
         elif intensity < 10:
             sentence += "oh. "
-        sentence += str(inValue) + " " + str(inUnit) + " is the same as " + str(ratio) + " times " + str(compareUnit)
+        sentence += str(inValue) + " " + str(inUnit) + " is about the same as " + str(ratio) + " times " + str(compareUnit)
     elif sentenceType is 1:
-        ratio = float(inValue) / float(compareValue)
         if ratio < 1:
             invRatio = 1 / ratio
             sentence += str(compareUnit) + " is " + str(invRatio) + " times " + getComparisonFromType(getTypeFromUnit(inUnit), False)
@@ -105,5 +125,7 @@ def makeSentence(inValue, inUnit, compareValue, compareUnit, sentenceType = None
             sentence += str(compareUnit) + " is " + str(ratio) + " times " + getComparisonFromType(getTypeFromUnit(inUnit), True)
         
         sentence += " than " + str(inValue) + " " + str(inUnit)
+    elif sentenceType is 2:
+        sentence += str(inValue) + " " + str(getUnitDisplayName(inUnit)) + " is about " + str(ratio) + " times " + str(compareUnit)
 
     return sentence
