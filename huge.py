@@ -28,8 +28,6 @@ def wide(unit, value):
     output = makeSentence(value, unit, row["Value"], row["Unit"], sentenceType=2)
 
     # output = str(value) + " " + str(unit) + " is the same as " + str(ratio) + " times " + str(row["Unit"])
-
-    print(output)
     return output
 
 #metrescubed / seconds / kg
@@ -93,13 +91,27 @@ def makeSentence(inValue, inUnit, compareValue, compareUnit, sentenceType = None
         sentenceType = random.randint(0, 2)
     if intensity is None:
         intensity = random.randint(0, 100)
+    
+    if inValue.is_integer():
+        inValue = int(inValue)
 
     ratio = float(inValue) / float(compareValue)
 
     ratio = float("%.4g" % ratio)
 
+    fraction = False
+
     if ratio.is_integer():
         ratio = int(ratio)
+        ratioString = str(ratio)
+    elif fraction and ratio < 1:
+        top, bottom = ratio.as_integer_ratio()
+        ratioString = "<sup>" + str(top) + "</sup>&frasl;<sub>" + str(bottom) + "</sub>"
+    else:
+        ratioString = str(ratio)
+        if "e" in ratioString:
+            a,b = ratioString.split("e")
+            ratioString = a + "x10<sup>" + str(int(b)) + "</sup>"
 
     same = False
     if math.isclose(float(inValue), float(compareValue), abs_tol=1e-2):
@@ -109,12 +121,6 @@ def makeSentence(inValue, inUnit, compareValue, compareUnit, sentenceType = None
     if math.isclose(round(ratio), ratio, abs_tol=1e-2):
         exact = True
 
-    if "e" in str(ratio):
-        ratioString = str(ratio)
-        a,b = ratioString.split("e")
-        print(a,b)
-        ratio = a + "x10<sup>" + str(int(b)) + "</sup>"
-    
     sentence = ""
 
     if sentenceType is 0:
@@ -122,16 +128,16 @@ def makeSentence(inValue, inUnit, compareValue, compareUnit, sentenceType = None
             sentence += "WOW! "
         elif intensity < 10:
             sentence += "oh. "
-        sentence += str(inValue) + " " + str(inUnit) + " is about the same as " + str(ratio) + " times " + str(compareUnit)
+        sentence += str(inValue) + " " + str(inUnit) + " is about the same as " + ratioString + " times " + str(compareUnit)
     elif sentenceType is 1:
         if ratio < 1:
             invRatio = 1 / ratio
             sentence += str(compareUnit) + " is " + str(invRatio) + " times " + getComparisonFromType(getTypeFromUnit(inUnit), False)
         else:
-            sentence += str(compareUnit) + " is " + str(ratio) + " times " + getComparisonFromType(getTypeFromUnit(inUnit), True)
+            sentence += str(compareUnit) + " is " + ratioString + " times " + getComparisonFromType(getTypeFromUnit(inUnit), True)
         
         sentence += " than " + str(inValue) + " " + str(inUnit)
     elif sentenceType is 2:
-        sentence += str(inValue) + " " + str(getUnitDisplayName(inUnit)) + " is about " + str(ratio) + " times " + str(compareUnit)
+        sentence += str(inValue) + " " + str(getUnitDisplayName(inUnit)) + " is about " + ratioString + " times " + str(compareUnit)
 
     return sentence
