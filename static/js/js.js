@@ -1,17 +1,22 @@
 $(document).ready(function(){
-    document.getElementById("convertButton").addEventListener("click", function(e){
-        convertValue(document.getElementById("valueEntry").value, $("#unitEntry").val());
+    document.getElementById("convertButton").addEventListener("click", () => {
+        convertValue(document.getElementById("valueEntry").value);
+    });
+
+    document.getElementById("valueEntry").addEventListener("keyup", (e) => {
+        if(e.keyCode === 13){
+            e.preventDefault();
+            document.getElementById("convertButton").click();
+        }
     });
 });
 
-function convertValue(value, unit){
-    console.log("Value: " + value + ", unit: " + unit);
+function convertValue(value){
     $.ajax({
-        url: "api/bum",
+        url: "api/querystring",
         dataType: "json",
         data: {
-            value: value,
-            unit: unit,
+            query: value,
         },
         cache: false,
         success: function(data){

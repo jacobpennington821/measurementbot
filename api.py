@@ -1,6 +1,7 @@
 from flask import Flask, request, Response, abort
 import huge
 import json
+from huge import FailedGenerationError
 
 from flask import render_template
 
@@ -12,13 +13,10 @@ huge.setup()
 def root():
     return render_template('homegamebutnobodyturnedup.html')
 
-@app.route('/api/bum')
-def bum():
+@app.route("/api/querystring")
+def querystring():
     try:
-        value = request.args.get("value")
-        value = float(value)
-        unit = request.args.get("unit")
-        output = huge.wide(unit, value)
+        output = huge.generate_from_query_string(request.args.get("query"))
         return json.dumps(output)
-    except ValueError:
-        abort(400)
+    except FailedGenerationError:
+        return json.dumps("Failed to convert into a sick measurement..")

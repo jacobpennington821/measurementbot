@@ -3,9 +3,12 @@ import pandas as pd
 import random
 import math
 import os
+from pint import UnitRegistry, UndefinedUnitError
 
 dbConn = sql.connect(":memory:", check_same_thread=False)
 dbConn.row_factory = sql.Row
+u_reg = UnitRegistry()
+u_reg.default_format = "H"
 
 def setup():
     cur = dbConn.cursor()
@@ -16,19 +19,15 @@ def setup():
                 readFile.to_sql(file.split(".")[0], dbConn, index=False)
                 cur.execute("SELECT * FROM " + file.split(".")[0] + ";")
 
-def wide(unit, value):
-    tableName = getTypeFromUnit(unit)
+def get_random_record(record_type: str):
+    if record_type not in ["volumes", "times", "mass", "lengths"]:
+        return None
 
     cur = dbConn.cursor()
-    cur.execute("SELECT * FROM " + tableName + " WHERE rowid = abs(random()) % (SELECT max(rowid) FROM " + tableName + ") + 1; ")
+    cur.execute("SELECT * FROM " + record_type + " WHERE rowid = abs(random()) % (SELECT max(rowid) FROM " + record_type + ") + 1;")
     row = cur.fetchone()
 
-    ratio = float(value) / row["Value"]
-
-    output = makeSentence(value, unit, row["Value"], row["Unit"], sentenceType=2)
-
-    # output = str(value) + " " + str(unit) + " is the same as " + str(ratio) + " times " + str(row["Unit"])
-    return output
+    return row
 
 #metrescubed / seconds / kg
 
@@ -49,12 +48,7 @@ def getComparisonFromType(unitType, bigger):
             return "thiccer"
         else:
             return "less thiccer"
-    if unitType == "volumes":
-        if bigger:
-            return "more spacious"
-        else:
-            return "less spacious"
-    elif unitType == "times" or unitType == "lengths":
+    if unitType == "times" or unitType == "lengths":
         if bigger:
             return "longer"
         else:
@@ -82,11 +76,11 @@ def getComparison2FromType(unitType):
 
 def getUnitDisplayName(unitType):
     if unitType == "metrescubed":
-        return "m&#179";
+        return "m&#179"
     else:
         return unitType
 
-def makeSentence(inValue, inUnit, compareValue, compareUnit, sentenceType = None, intensity = None):
+def makeSentence(unitType: str, inValue: float, inValueNormalised: float, inUnit: str, compareValue: float, compareUnit: str, sentenceType: int = None, intensity: int = None, inString: str = None):
     if sentenceType is None:
         sentenceType = random.randint(0, 2)
     if intensity is None:
@@ -95,7 +89,7 @@ def makeSentence(inValue, inUnit, compareValue, compareUnit, sentenceType = None
     if inValue.is_integer():
         inValue = int(inValue)
 
-    ratio = float(inValue) / float(compareValue)
+    ratio = float(inValueNormalised) / float(compareValue)
 
     ratio = float("%.4g" % ratio)
 
@@ -114,7 +108,7 @@ def makeSentence(inValue, inUnit, compareValue, compareUnit, sentenceType = None
             ratioString = a + "x10<sup>" + str(int(b)) + "</sup>"
 
     same = False
-    if math.isclose(float(inValue), float(compareValue), abs_tol=1e-2):
+    if math.isclose(float(inValueNormalised), float(compareValue), abs_tol=1e-2):
         same = True
 
     exact = False
@@ -128,7 +122,11 @@ def makeSentence(inValue, inUnit, compareValue, compareUnit, sentenceType = None
             sentence += "WOW! "
         elif intensity < 10:
             sentence += "oh. "
-        sentence += str(inValue) + " " + str(inUnit) + " is about the same as " + ratioString + " times " + str(compareUnit)
+        
+        if inString is None:
+            sentence += str(inValue) + " " + str(inUnit) + " is about the same as " + ratioString + " times " + str(compareUnit)
+        else:
+            sentence += str(inString) + " is about the same as " + ratioString + " times " + str(compareUnit)
     elif sentenceType is 1:
         if ratio < 1:
             invRatio = 1 / ratio
@@ -138,6 +136,38 @@ def makeSentence(inValue, inUnit, compareValue, compareUnit, sentenceType = None
         
         sentence += " than " + str(inValue) + " " + str(inUnit)
     elif sentenceType is 2:
-        sentence += str(inValue) + " " + str(getUnitDisplayName(inUnit)) + " is about " + ratioString + " times " + str(compareUnit)
-
+        if inString is None:
+            sentence += str(inValue) + " " + str(getUnitDisplayName(inUnit)) + " is about " + ratioString + " times " + str(compareUnit)
+        else:
+            sentence += str(inString) + " is about " + ratioString + " times " + str(compareUnit)
     return sentence
+
+def generate_from_query_string(query: str) -> str:
+    try:
+        parsed_input = u_reg.parse_expression(query)
+        if not hasattr(parsed_input, "dimensionality"):
+            raise FailedGenerationError("Provided query is not valid")
+
+        normalised_input = parsed_input.to_base_units()
+        
+        if normalised_input.dimensionality == {"[length]": 1}:
+            unitType = "lengths"
+        elif normalised_input.dimensionality == {"[time]": 1}:
+            unitType = "times"
+        elif normalised_input.dimensionality == {"[mass]": 1}:
+            unitType = "mass"
+        elif normalised_input.dimensionality == {"[length]": 3}:
+            unitType = "volumes"
+        else:
+            raise FailedGenerationError("Invalid unit type")
+
+        random_record = get_random_record(unitType)
+        return makeSentence(unitType,
+            float(parsed_input.magnitude), normalised_input.magnitude, "{0.units}".format(parsed_input),
+            random_record["Value"], random_record["Unit"], inString=query)
+    except UndefinedUnitError:
+        raise FailedGenerationError("Invalid unit type")
+
+class FailedGenerationError(Exception):
+    pass
+

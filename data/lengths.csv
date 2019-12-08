@@ -27,7 +27,7 @@ Unit,Value
 "the height of Tom Cruise",1.7
 "the length of the Titanic",269
 "the thickness of a Google Pixel",0.00858
-"the average body length of a giant anteater",199.5
+"the average body length of a giant anteater",0.199
 "the height of the Burj Khalifa",828
 "the length of the Black Pearl",50.292
 "the diameter of an ostrich's eyes",0.6096
@@ -77,3 +77,5 @@ Unit,Value
 "the length of the Golden Gate Bridge", 2737
 "the diameter of Saturn's rings", 250000000
 "the estimated sea level rise if the entire Antarctic ice sheet melted", 58.3
+"the supposed height of Disney Frozen's Olaf", 162.56
+"the worlds longest conga line", 5.47
