@@ -10,12 +10,13 @@
 
 #outputBox {
     background-color: white;
-    width: 500px;
+    max-width: 500px;
+    width: 100%;
     text-align: center;
     margin-top: 5px;
     margin-bottom: 5px;
     border-radius: 5px;
-    padding: 0 5px;
+    padding: 5px 10px;
 }
 
 #bot {
@@ -29,7 +30,7 @@
 
 .bot-text {
     margin: auto;
-    padding-top: 30px;
+    padding-top: 10px;
     color: white;
 }
 
