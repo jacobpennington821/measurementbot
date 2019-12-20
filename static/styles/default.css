@@ -3,7 +3,7 @@
     margin: 0 auto;
 }
 
-#thiccLoad {
+#outputBox {
     background-color: white;
     width: 500px;
     text-align: center;
@@ -42,6 +42,15 @@ body {
     background-image: url("/static/img/techBackground.jpg");
 }
 
+.disclaimer {
+    font-size: 0.75em;
+    margin: 0;
+}
+
 footer {
     color: white;
+}
+
+footer p {
+    margin: 0;
 }

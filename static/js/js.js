@@ -19,12 +19,12 @@ function convertValue(value){
             query: value,
         },
         cache: false,
-        success: function(data){
+        success: (data) => {
             displayReading(data);
         },
     })
 }
 
 function displayReading(reading){
-    document.getElementById("thiccLoad").innerHTML = reading + ".";
+    document.getElementById("outputBox").innerHTML = reading + ".";
 }

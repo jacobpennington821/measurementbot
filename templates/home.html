@@ -9,7 +9,6 @@
         <script src="/static/js/js.js"></script>
         <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta succ="yumyumyum" type="shlong" eat="holy macaroni that's 1 whet peen"></meta>
         <title>MeasurementBot - Convert Your Measurements</title>
         <link rel="icon" type="image/png" href="/static/img/Bot.png"/>
         <meta name="description" content="MeasurementBot is an amazing next generation approach to making measurements more understandable."> 
@@ -27,16 +26,17 @@
                 <img src="/static/img/Bot.png" id="botImage" alt="Measurement Bot"/>
             </div>
             <div id="entryArea" class="input-group">
-                <input id="valueEntry" class="form-control" type="text" autofocus>
+                <input id="valueEntry" class="form-control" type="text" placeholder="Enter a measurement! (Try '5cm' or '6kg')" autofocus>
                 <div class="input-group-append">
                     <button id="convertButton" class="form-control">Convert</button>
                 </div>
             </div>
-            <div id="thiccLoad">
+            <div id="outputBox">
             </div>
         </div>
         <footer>
-            Copyright 2019 - Apple Sauce
+            <p class="disclaimer">We can assure the customer that all measurements are probably about right give or take a bit. (&#177;&infin;)</p>
+            <p>MeasurementBot v{{ config.VERSION }} &copy; 2019 Apple Sauce</p>
         </footer>
     </body>
 </html>
