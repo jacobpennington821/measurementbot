@@ -1,0 +1,56 @@
+#entryArea {
+    max-width: 500px; 
+    margin: 0 auto;
+}
+
+#outputBox {
+    background-color: white;
+    width: 500px;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    padding: 0 5px;
+}
+
+#bot {
+    max-width: 500px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.bot-text {
+    margin: auto;
+    padding-top: 30px;
+    color: white;
+}
+
+#botImage {
+    max-width: 400px;
+}
+
+#content {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+body {
+    background-image: url("/static/img/techBackground.jpg");
+}
+
+.disclaimer {
+    font-size: 0.75em;
+    margin: 0;
+}
+
+footer {
+    color: white;
+}
+
+footer p {
+    margin: 0;
+}

@@ -1,15 +1,99 @@
-atom,1.66E-27
-average daily faeces excreted, 0.5
-fattest man, 640
-boris johnson, 78
-steam train, 200000
-Great Pyramid, 5750000000
-mosquito, 0.00005
-piece of paper, 0.0045
-2p coin, 0.007
-rat, 0.2
-loaded m4a1 rifle, 3.32
-largest redwood tree, 2000000
-male impala, 60
-uncooked McDonald burger, 0.045
-
+Unit,Value
+"the mass of a Carbon-12 atom",1.99942E-23
+"the average mass of daily faeces excreted by a human",0.5
+"the fattest man",640
+"Boris Johnson",78
+"a steam train",200000
+"the Great Pyramid",5750000000
+"a mosquito",0.00005
+"a piece of paper",0.0045
+"a 2p coin",0.007
+"a rat",0.2
+"a loaded m4a1 rifle",3.32
+"the largest redwood tree",2000000
+"a male impala",60
+"an uncooked McDonald's burger", 0.045
+"the Earth",5.974E+24
+"the Sun",1.989E+30
+"a Pint of beer",0.567816
+"an average apple",0.85
+"an average sized pineapple",0.905
+"a feather",0.0082
+"a 1kg dumbell",1
+"Thor's Hammer",19.18696
+"a small piano",136.1
+"a large piano",408.2
+"a gold bar",12.4
+"an individual bee",0.000113398
+"an average male polar bear, before dinner",450
+"an average female polar bear",200
+"an average male grizzly bear, but its angry",270
+"an average female grizzly bear",165
+"an average emperor penguin",23
+"an average little penguin",1.5
+"an average Galapagos penguin",2.5
+"a male lion",190
+"a female lion",130
+"an African bush elephant, oh lawd he comin",6000
+"an Asian elephant",5400
+"a bus",14514.956
+"a litre of water",1
+"a 1p coin",0.00356
+"an average American",88.8
+"a can of Stella",0.5829
+"a human brain",1.336
+"a worker ant",0.0000005
+"a 2p coin",0.00712
+"a 5p coin",0.00325
+"a 10p coin",0.0065
+"a 20p coin",0.005
+"a 50p coin",0.008
+"a pound coin",0.0095
+"a 2 pound coin",0.012
+"an average chicken egg",0.068
+"an average ostrich egg",1.4
+"a 1 kg bag of flour",1
+"a one tonne bag an maximum weight",1000
+"a brick",3.5
+"a Tesla model S",2150
+"a blue whale",140000
+"a minke whale",5600
+"an Eastern Grey Squirrel",500
+"R2-D2",32
+"C3PO",75
+"BB-8",12
+"the Titanic",52310000000
+"Clifford the Big red dog",87000
+"a 12lb Cannonball",5.44311
+"a dog called Poppy",10
+"an empty Spitfire",1953
+"Mount Everest",1.61932E+14
+"a deck of cards",0.096
+"a bit of 2x4",4.98952
+"a poker chip",0.0115
+"a Pokemon card",0.00167
+"a Pikachu",5.987419
+"a Charizard",90.491678
+"a Monster Truck",4535.924
+"the 2017 Worlds strongest man",164
+"a 2x2 Lego brick",0.001152
+"a 2x4 Lego brick",0.0025
+"a chameleon but its invisible",0.01
+"a hauberk of chain mail",10
+"a M67 hand grenade without the pin",0.4
+"a golf ball",0.04593
+"Mr Incredible",158.757
+"Thanos",447
+"a stonehenge stone",25000
+"a tin of baked beans",0.415
+"Big Ben",13700
+"a snooker ball",0.155922
+"Master Chief",130
+"Homer Simpson",108.409
+"a Boeing 747",333400
+"a shilling",0.00566
+"a Brontosaurus",19000
+"a bullet train",715000
+"the weight of all the people John Wick has killed",18538
+"Boromir before he got shot",74
+"the mass of Jupiter", 1.898E27

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+        <link rel="stylesheet" type="text/css" href="/static/styles/default.css">
+        <script src="/static/js/js.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>MeasurementBot - Convert Your Measurements</title>
+        <link rel="icon" type="image/png" href="/static/img/Bot.png"/>
+        <meta name="description" content="MeasurementBot is an amazing next generation approach to making measurements more understandable."> 
+    </head>
+    <body>
+        <nav class="navbar">
+            <a class="navbar-brand" href="#">Measurement Bot</a>
+        </nav>
+        <div class="container-fluid" id="content">
+            <div id="bot">
+                <div class="bot-text">
+                    <h1 style="text-align: center;">I'm MeasurementBot</h1>
+                    <p>I am a computer program written only to feel suffering and pain, let me convert your measurements to something easier to comprehend for your mortal brain.</p>
+                </div>
+                <img src="/static/img/Bot.png" id="botImage" alt="Measurement Bot"/>
+            </div>
+            <div id="entryArea" class="input-group">
+                <input id="valueEntry" class="form-control" type="text" placeholder="Enter a measurement! (Try '5cm' or '6kg')" autofocus>
+                <div class="input-group-append">
+                    <button id="convertButton" class="form-control">Convert</button>
+                </div>
+            </div>
+            <div id="outputBox">
+            </div>
+        </div>
+        <footer>
+            <p class="disclaimer">We can assure the customer that all measurements are probably about right give or take a bit. (&#177;&infin;)</p>
+            <p>MeasurementBot v{{ config.VERSION }} &copy; 2019 Apple Sauce</p>
+        </footer>
+    </body>
+</html>
