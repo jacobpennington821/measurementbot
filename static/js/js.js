@@ -26,5 +26,6 @@ function convertValue(value){
 }
 
 function displayReading(reading){
+    document.getElementById("outputBox").style.display = "block";
     document.getElementById("outputBox").innerHTML = reading + ".";
 }
