@@ -4,7 +4,7 @@ $(document).ready(function(){
     });
 
     document.getElementById("valueEntry").addEventListener("keyup", (e) => {
-        if(e.keyCode === 13){
+        if(e.key === "Enter"){
             e.preventDefault();
             document.getElementById("convertButton").click();
         }
@@ -22,10 +22,21 @@ function convertValue(value){
         success: (data) => {
             displayReading(data);
         },
+        error: (data) => {
+            displayError(data);
+        }
     })
 }
 
 function displayReading(reading){
     document.getElementById("outputBox").style.display = "block";
     document.getElementById("outputBox").innerHTML = reading + ".";
+}
+
+function displayError(error){
+    if(error.status == 400){
+        displayReading(error.responseText);
+    } else {
+        console.log(error);
+    }
 }

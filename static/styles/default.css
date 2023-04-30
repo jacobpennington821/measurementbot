@@ -1,6 +1,23 @@
+body { padding-bottom: 70px; }
+
 .navbar {
     background: black;
     opacity: 0.8;
+    padding: .5rem 1rem;
+}
+
+.navbar a {
+    padding-left: 5px;
+    color: #0056b3;
+}
+
+.footer-wrapper {
+    display: flex;
+    flex-flow: row wrap;
+    padding: 0 .5rem;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
 }
 
 #entryArea {

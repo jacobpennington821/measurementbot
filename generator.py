@@ -1,8 +1,12 @@
-import sqlite3 as sql
-import pandas as pd
-import random
+"""Measurement API backend. """
+
 import math
 import os
+import random
+
+import sqlite3 as sql
+import pandas as pd
+
 from pint import UnitRegistry, UndefinedUnitError
 
 dbConn = sql.connect(":memory:", check_same_thread=False)
@@ -38,32 +42,18 @@ def get_random_record(record_type: str):
     return row
 
 
-# metrescubed / seconds / kg
-
-
-def getTypeFromUnit(unit):
-    if unit == "metrescubed":
-        return "volumes"
-    elif unit == "seconds":
-        return "times"
-    elif unit == "kg":
-        return "mass"
-    elif unit == "metres":
-        return "lengths"
-
-
-def getComparisonFromType(unitType: str, bigger: bool):
+def getComparisonFromType(unitType: str, bigger: bool) -> str:
     dumb = random.randint(0, 1000)
     if dumb == 1000:
         return "thiccer" if bigger else "less thiccer"
     if unitType == "times" or unitType == "lengths":
         return "longer" if bigger else "shorter"
-    elif unitType == "mass":
+    if unitType == "mass":
         return "heavier" if bigger else "lighter"
     return "bigger" if bigger else "smaller"
 
 
-def getComparison2FromType(unitType):
+def getComparison2FromType(unitType: str) -> str:
     if unitType == "volumes":
         return "size"
     if unitType == "lengths":
@@ -72,22 +62,21 @@ def getComparison2FromType(unitType):
         return "mass"
     if unitType == "times":
         return "length"
+    return ""
 
 
-def getUnitDisplayName(unitType):
+def getUnitDisplayName(unitType: str) -> str:
     if unitType == "metrescubed":
         return "m&#179"
-    else:
-        return unitType
+    return unitType
 
 
 def capitalise(string: str) -> str:
     if len(string) == 0:
         return string
-    elif len(string) == 1:
+    if len(string) == 1:
         return string.capitalize()
-    else:
-        return string[0].capitalize() + string[1:]
+    return string[0].capitalize() + string[1:]
 
 
 def makeSentence(
@@ -97,10 +86,10 @@ def makeSentence(
     inUnit: str,
     compareValue: float,
     compareUnit: str,
-    sentenceType: int = None,
-    intensity: int = None,
-    inString: str = None,
-):
+    sentenceType: int | None = None,
+    intensity: int | None = None,
+    inString: str | None = None,
+) -> str:
     if sentenceType is None:
         sentenceType = random.randint(0, 2)
     if intensity is None:
@@ -144,68 +133,44 @@ def makeSentence(
             sentence += "oh. "
 
         if inString is None:
-            sentence += (
-                str(inValue)
-                + " "
-                + str(inUnit)
-                + " is about the same as "
-                + ratioString
-                + " times "
-                + str(compareUnit)
-            )
+            sentence += f"{inValue} {inUnit} is about the same as {ratioString} times {compareUnit}"
         else:
             sentence += (
-                str(inString)
-                + " is about the same as "
-                + ratioString
-                + " times "
-                + str(compareUnit)
+                f"{inString} is about the same as {ratioString} times {compareUnit}"
             )
+
     elif sentenceType == 1:
         if ratio < 1:
             invRatio = 1 / ratio
             sentence += (
-                capitalise(str(compareUnit))
-                + " is "
-                + str(invRatio)
-                + " times "
-                + getComparisonFromType(getTypeFromUnit(inUnit), True)
+                f"{capitalise(str(compareUnit))} is {invRatio} "
+                f"times {getComparisonFromType(unitType, True)}"
             )
         else:
             sentence += (
-                capitalise(str(compareUnit))
-                + " is "
-                + ratioString
-                + " times "
-                + getComparisonFromType(getTypeFromUnit(inUnit), False)
+                f"{capitalise(str(compareUnit))} is {ratioString} "
+                f"times {getComparisonFromType(unitType, False)}"
             )
 
-        sentence += " than " + inString
+        sentence += " than " + str(inString)
+
     elif sentenceType == 2:
         if inString is None:
             sentence += (
-                capitalise(str(inValue))
-                + " "
-                + str(getUnitDisplayName(inUnit))
-                + " is about "
-                + ratioString
-                + " times "
-                + str(compareUnit)
+                f"{capitalise(str(inValue))} {getUnitDisplayName(inUnit)} "
+                f"is about {ratioString} times {compareUnit}"
             )
         else:
             sentence += (
-                capitalise(str(inString))
-                + " is about "
-                + ratioString
-                + " times "
-                + str(compareUnit)
+                f"{capitalise(str(inString))} is about {ratioString} "
+                f"times {compareUnit}"
             )
     return sentence
 
 
 def generate_from_query_string(query: str) -> str:
     try:
-        parsed_input = u_reg.parse_expression(query)
+        parsed_input = u_reg(query)
         if not hasattr(parsed_input, "dimensionality"):
             raise FailedGenerationError("Provided query is not valid")
 
@@ -227,7 +192,7 @@ def generate_from_query_string(query: str) -> str:
             unitType,
             float(parsed_input.magnitude),
             normalised_input.magnitude,
-            "{0.units}".format(parsed_input),
+            f"{parsed_input.units}",
             random_record["Value"],
             random_record["Unit"],
             inString=query,

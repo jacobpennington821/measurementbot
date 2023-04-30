@@ -1,9 +1,8 @@
-from flask import Flask, request, Response, abort
-import generator
 import json
-from generator import FailedGenerationError
 
-from flask import render_template
+from flask import Flask, request, Response, render_template
+import generator
+from generator import FailedGenerationError
 
 app = Flask(__name__)
 
@@ -19,4 +18,4 @@ def querystring():
         output = generator.generate_from_query_string(request.args.get("query"))
         return json.dumps(output)
     except FailedGenerationError:
-        return json.dumps("Failed to convert into a sick measurement..")
+        return Response("Failed to convert into a sick measurement..", 400)
