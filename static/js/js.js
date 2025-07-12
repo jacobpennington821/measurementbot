@@ -1,4 +1,4 @@
-$(document).ready(function(){
+document.addEventListener("DOMContentLoaded", function(event) { 
     document.getElementById("convertButton").addEventListener("click", () => {
         convertValue(document.getElementById("valueEntry").value);
     });
@@ -11,21 +11,16 @@ $(document).ready(function(){
     });
 });
 
-function convertValue(value){
-    $.ajax({
-        url: "api/querystring",
-        dataType: "json",
-        data: {
-            query: value,
-        },
-        cache: false,
-        success: (data) => {
-            displayReading(data);
-        },
-        error: (data) => {
-            displayError(data);
-        }
-    })
+async function convertValue(value){
+    const response = await fetch(
+        "api/querystring?" + new URLSearchParams({query: value}).toString(),
+        {cache: "no-cache"},
+    )
+    if (!response.ok){
+        displayError(response);
+    } else {
+        displayReading(await response.json());
+    }
 }
 
 function displayReading(reading){
@@ -33,10 +28,11 @@ function displayReading(reading){
     document.getElementById("outputBox").innerHTML = reading + ".";
 }
 
-function displayError(error){
+async function displayError(error){
+    errorText = await error.text();
     if(error.status == 400){
-        displayReading(error.responseText);
+        displayReading(errorText);
     } else {
-        console.log(error);
+        console.log(errorText);
     }
 }
